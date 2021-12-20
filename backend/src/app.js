@@ -18,16 +18,7 @@ app.use(cors()); // every time a request is received, the app will accepts
 app.use(express.json()); // the server knows JSON format
 
 // routes
-app.get("/api/users", (req, res) => {
-  res.json({
-    status: "Good, users routes",
-  });
-});
-
-app.get("/api/notes", (req, res) => {
-  res.json({
-    status: "Good, notes routes",
-  });
-});
+app.use("/api/users", require("./routes/users.route"));
+app.use("/api/notes", require("./routes/notes.route"));
 
 module.exports = app;
