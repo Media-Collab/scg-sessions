@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
-console.log(process.env.MONGODB_URI);
-const URI = process.env.MONGODB_URI;
+/**
+ * if mongo database dont exist
+ */
+const URI = process.env.MONGODB_URI
+  ? process.env.MONGODB_URI
+  : "mongodb://localhost/databasetest";
 
 // options to use mongoose
 mongoose.connect(URI, {
