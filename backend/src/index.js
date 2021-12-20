@@ -1,7 +1,13 @@
 /**
+ * Before init the app, imports the env variables
+ */
+require("dotenv").config();
+
+/**
  * Init server
  */
 const app = require("./app");
+require("./database");
 
 const PORT = process.env.PORT || 4000;
 
