@@ -80,7 +80,7 @@ const Navigation = () => {
               }}
             >
               {pages.map((page, index) => (
-                <Link to={routes[index]}>
+                <Link key={index} to={routes[index]}>
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
@@ -98,7 +98,7 @@ const Navigation = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page, index) => (
-              <Link to={routes[index]}>
+              <Link key={index} to={routes[index]}>
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
