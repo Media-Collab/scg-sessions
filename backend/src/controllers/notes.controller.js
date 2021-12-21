@@ -1,38 +1,52 @@
 const notesController = {};
 
-notesController.getNotes = (req, res) => {
-  res.json({
-    method: "GET",
-    route: "notes",
-  });
+const NoteModel = require("./../models/Note.model");
+
+notesController.getNotes = async (req, res) => {
+  const notesDB = await NoteModel.find();
+  res.json(notesDB);
 };
 
-notesController.createNote = (req, res) => {
+notesController.createNote = async (req, res) => {
+  const { title, content, date, author } = req.body;
+  const newNote = new NoteModel({ title, content, date, author });
+  await newNote.save();
+
   res.json({
-    method: "POST",
-    route: "notes",
     message: "Note saved",
   });
 };
 
-notesController.getNote = (req, res) => {
+notesController.getNote = async (req, res) => {
+  const { id } = req.params;
+  const note = await NoteModel.findById(id);
+
   res.json({
-    title: "Example text",
+    title: note,
   });
 };
 
-notesController.updateNote = (req, res) => {
+notesController.updateNote = async (req, res) => {
+  const { title, content, author } = req.body;
+  const { id } = req.params;
+  await NoteModel.findOneAndUpdate(
+    { _id: id },
+    {
+      title,
+      content,
+      author,
+    }
+  );
+
   res.json({
-    method: "PUT",
-    route: "notes",
     message: "Note updated",
   });
 };
 
-notesController.deleteNote = (req, res) => {
+notesController.deleteNote = async (req, res) => {
+  const { id } = req.params;
+  await NoteModel.findByIdAndDelete(id);
   res.json({
-    method: "DELETE",
-    route: "notes",
     message: "Note deleted",
   });
 };
