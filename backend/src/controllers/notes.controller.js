@@ -21,9 +21,7 @@ notesController.getNote = async (req, res) => {
   const { id } = req.params;
   const note = await NoteModel.findById(id);
 
-  res.json({
-    title: note,
-  });
+  res.json(note);
 };
 
 notesController.updateNote = async (req, res) => {
@@ -35,6 +33,7 @@ notesController.updateNote = async (req, res) => {
       title,
       content,
       author,
+      date,
     }
   );
 

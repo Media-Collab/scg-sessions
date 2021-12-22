@@ -3,7 +3,7 @@
  */
 const express = require("express");
 const cors = require("cors");
-
+const routerApi = require("./routes/index");
 /**
  * Create and initialize app
  * @constant app
@@ -18,7 +18,8 @@ app.use(cors()); // every time a request is received, the app will accepts
 app.use(express.json()); // the server knows JSON format
 
 // routes
-app.use("/api/users", require("./routes/users.route"));
-app.use("/api/notes", require("./routes/notes.route"));
+routerApi(app);
+// app.use("/api/users", require("./routes/users.route"));
+// app.use("/api/notes", require("./routes/notes.route"));
 
 module.exports = app;
