@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { experimentalStyled as styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import axios from "axios";
 import { format } from "timeago.js";
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-}));
 
 export default class NotesList extends Component {
   state = {
     notes: [],
+    image:
+      "https://images.unsplash.com/photo-1640195516482-aaab6c242863?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=300&q=60",
   };
 
   componentDidMount() {
@@ -44,19 +43,36 @@ export default class NotesList extends Component {
       >
         {this.state.notes.map((note, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item>
-              <Typography component="h5" sx={{ fontWeight: "bold" }}>
-                Title: {note.title}
-              </Typography>
-              <Typography>{note.content}</Typography>
-              <Typography sx={{ fontSize: 12 }}>{note.author}</Typography>
-              <Typography sx={{ fontSize: 12 }}>{format(note.date)}</Typography>
+            <Card>
+              <CardMedia
+                component="img"
+                height="140"
+                image={this.state.image}
+                alt="Images todo app"
+              />
+              <CardContent>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Title: {note.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {note.content}
+                </Typography>
+                <Typography sx={{ fontSize: 12 }}>{note.author}</Typography>
+                <Typography sx={{ fontSize: 12 }}>
+                  {format(note.date)}
+                </Typography>
+              </CardContent>
+
               <CardActions>
                 <Button
                   type="submit"
                   variant="contained"
                   color="error"
-                  sx={{ left: -10 }}
+                  size="small"
                   startIcon={<DeleteIcon />}
                   onClick={() => this.deleteNote(note._id)}
                 >
@@ -67,13 +83,15 @@ export default class NotesList extends Component {
                     type="submit"
                     variant="contained"
                     color="info"
-                    startIcon={<DeleteIcon />}
+                    size="small"
+                    sx={{ left: 10 }}
+                    startIcon={<EditIcon />}
                   >
                     Edit
                   </Button>
                 </Link>
               </CardActions>
-            </Item>
+            </Card>
           </Grid>
         ))}
       </Grid>
