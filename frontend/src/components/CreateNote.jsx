@@ -28,14 +28,14 @@ export default class CreateNote extends Component {
   async componentDidMount() {
     console.log(this.state.date);
 
-    const res = await axios.get("http://localhost:4000/api/users");
+    const res = await axios.get("http://localhost:4000/api/v1/users");
     this.setState({
       users: res.data.map((user) => user.username),
     });
 
     if (this.props.match.params.id) {
       const resNote = await axios.get(
-        `http://localhost:4000/api/notes/${this.props.match.params.id}`
+        `http://localhost:4000/api/v1/notes/${this.props.match.params.id}`
       );
 
       const { title, content, date } = resNote.data;
@@ -61,11 +61,11 @@ export default class CreateNote extends Component {
     };
     if (this.state.editing) {
       await axios.put(
-        `http://localhost:4000/api/notes/${this.state._id}`,
+        `http://localhost:4000/api/v1/notes/${this.state._id}`,
         newNote
       );
     } else {
-      await axios.post("http://localhost:4000/api/notes", newNote);
+      await axios.post("http://localhost:4000/api/v1/notes", newNote);
     }
 
     window.location.href = "/";

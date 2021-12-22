@@ -26,7 +26,7 @@ export default class CreateUser extends Component {
   }
 
   getUsers = async () => {
-    const res = await axios.get("http://localhost:4000/api/users");
+    const res = await axios.get("http://localhost:4000/api/v1/users");
     this.setState({ users: res.data });
   };
 
@@ -37,7 +37,7 @@ export default class CreateUser extends Component {
   onSubmit = async (e) => {
     e.preventDefault(); // prevent reset form
 
-    await axios.post("http://localhost:4000/api/users", {
+    await axios.post("http://localhost:4000/api/v1/users", {
       username: this.state.username,
     });
 
@@ -46,7 +46,7 @@ export default class CreateUser extends Component {
   };
 
   deleteUser = async (id) => {
-    await axios.delete(`http://localhost:4000/api/users/${id}`);
+    await axios.delete(`http://localhost:4000/api/v1/users/${id}`);
     this.getUsers();
   };
 
