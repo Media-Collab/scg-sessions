@@ -46,8 +46,6 @@ export default class CreateUser extends Component {
   };
 
   deleteUser = async (id) => {
-    console.log(id);
-
     await axios.delete(`http://localhost:4000/api/users/${id}`);
     this.getUsers();
   };

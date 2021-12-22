@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -55,12 +56,22 @@ export default class NotesList extends Component {
                   type="submit"
                   variant="contained"
                   color="error"
-                  sx={{ positon: "absolute", left: -10 }}
+                  sx={{ left: -10 }}
                   startIcon={<DeleteIcon />}
                   onClick={() => this.deleteNote(note._id)}
                 >
                   Delete
                 </Button>
+                <Link to={`/edit/${note._id}`}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="info"
+                    startIcon={<DeleteIcon />}
+                  >
+                    Edit
+                  </Button>
+                </Link>
               </CardActions>
             </Item>
           </Grid>

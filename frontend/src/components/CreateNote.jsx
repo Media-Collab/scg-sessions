@@ -10,7 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -22,26 +21,53 @@ export default class CreateNote extends Component {
     title: "",
     content: "",
     date: new Date(),
+    editing: false,
+    _id: "",
   };
 
   async componentDidMount() {
-    const res = await axios.get("http://localhost:4000/api/users");
+    console.log(this.state.date);
 
+    const res = await axios.get("http://localhost:4000/api/users");
     this.setState({
       users: res.data.map((user) => user.username),
     });
+
+    if (this.props.match.params.id) {
+      const resNote = await axios.get(
+        `http://localhost:4000/api/notes/${this.props.match.params.id}`
+      );
+
+      const { title, content, date } = resNote.data;
+      this.setState({
+        title,
+        content,
+        date: new Date(date),
+        userSelected: resNote.data.author,
+        editing: true,
+        _id: this.props.match.params.id,
+      });
+    }
   }
 
   onSubmit = async (e) => {
     e.preventDefault();
+
     const newNote = {
       title: this.state.title,
       content: this.state.content,
       date: this.state.date,
       author: this.state.userSelected,
     };
+    if (this.state.editing) {
+      await axios.put(
+        `http://localhost:4000/api/notes/${this.state._id}`,
+        newNote
+      );
+    } else {
+      await axios.post("http://localhost:4000/api/notes", newNote);
+    }
 
-    await axios.post("http://localhost:4000/api/notes", newNote);
     window.location.href = "/";
   };
 
@@ -55,7 +81,7 @@ export default class CreateNote extends Component {
 
   render() {
     return (
-      <Card sx={{ width: "50%", m: "auto", mt: 10 }}>
+      <Card sx={{ width: "65%", m: "auto", mt: 10 }}>
         <CardContent>
           <Typography variant="h5" component="div">
             Create Note
@@ -63,7 +89,7 @@ export default class CreateNote extends Component {
 
           {/* Select user */}
           <form className="create-note-form" onSubmit={this.onSubmit}>
-            <FormControl fullWidth sx={{ mt: 1 }}>
+            <FormControl fullWidth sx={{ m: 5 }}>
               <InputLabel id="demo-simple-select-label">author</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -88,6 +114,7 @@ export default class CreateNote extends Component {
                 name="title"
                 sx={{ mt: 1 }}
                 onChange={this.onInputChange}
+                value={this.state.title}
                 required
               />
 
@@ -98,6 +125,7 @@ export default class CreateNote extends Component {
                 maxRows={4}
                 onChange={this.onInputChange}
                 sx={{ mt: 1, mb: 1 }}
+                value={this.state.content}
                 required
               />
               <DatePicker
