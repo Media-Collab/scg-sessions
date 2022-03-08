@@ -24,12 +24,12 @@ export default class NotesList extends Component {
   }
 
   getNotes = async () => {
-    const res = await axios.get("http://localhost:4000/api/v1/notes");
+    const res = await axios.get("https://backmernstack.gregoryinnovo.repl.co/api/v1/notes");
     this.setState({ notes: res.data });
   };
 
   deleteNote = async (id) => {
-    await axios.delete(`http://localhost:4000/api/v1/notes/${id}`);
+    await axios.delete(`https://backmernstack.gregoryinnovo.repl.co/api/v1/notes/${id}`);
     this.getNotes();
   };
 
